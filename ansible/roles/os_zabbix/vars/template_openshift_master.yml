@@ -863,6 +863,25 @@ g_template_openshift_master:
     applications:
     - Openshift Master
 
+  - key: openshift.master.ds.configpod.status
+    value_type: int
+    description: "check if project openshift-config has expected running daemsonset pod "
+    applications:
+    - Openshift Master
+
+  - key: openshift.master.ds.logging.fluentd.status
+    value_type: int
+    description: "check if project logging has expected running daemsonset pod"
+    applications:
+    - Openshift Master
+
+  - key: openshift.master.logging.elasticsearch.script.status
+    value_type: int
+    description: "check if the monitoring script of logging works or not "
+    applications:
+    - Openshift Master
+
+
   zdiscoveryrules:
   - name: disc.pv
     key: disc.pv
@@ -1040,12 +1059,12 @@ g_template_openshift_master:
   - name: "openshift project creation failed on {HOST.NAME}"
     expression: "{Template Openshift Master:openshift.master.project.create.last(#1)}=0"
     url: "https://github.com/openshift/ops-sop/blob/master/v3/alerts/check_project_operation.asciidoc"
-    priority: avg
+    priority: high
 
   - name: "openshift project deletion failed on {HOST.NAME}"
     expression: "{Template Openshift Master:openshift.master.project.delete.last(#1)}=1"
     url: "https://github.com/openshift/ops-sop/blob/master/v3/alerts/check_project_operation.asciidoc"
-    priority: avg
+    priority: high
 
   - name: "Openshift Master API health check is failing on {HOST.NAME}"
     expression: "{Template Openshift Master:openshift.master.api.healthz.max(#3)}<1"
@@ -1209,7 +1228,7 @@ g_template_openshift_master:
     priority: high
 
   - name: "Openshift-dedicated-role service is not running on  {HOST.NAME}"
-    expression: "{Template Openshift Master:openshift.master.service.dedicated.admin.count.last()}<2"
+    expression: "{Template Openshift Master:openshift.master.service.dedicated.admin.count.sum(#2)}<2"
     url: "https://github.com/openshift/ops-sop/blob/master/v3/alerts/dedicated-admin.asciidoc"
     priority: high
 
@@ -1222,6 +1241,12 @@ g_template_openshift_master:
     expression: "{Template Openshift Master:openshift.adminconsole.pod.availability.last()}>0"
     url: "https://github.com/openshift/ops-sop/blob/master/v3/alerts/openshift_web_console.asciidoc"
     priority: avg
+
+  - name: "logging status check script error on  {HOST.NAME}"
+    expression: "{Template Openshift Master:openshift.master.logging.elasticsearch.script.status.last()}>0"
+    url: "https://github.com/openshift/ops-sop/blob/master/v3/alerts/check_logging.asciidoc"
+    priority: high
+
 
   zgraphs:
   - name: Openshift Master API Server Latency Pods LIST Quantiles

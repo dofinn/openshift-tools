@@ -1,13 +1,4 @@
-#     ___ ___ _  _ ___ ___    _ _____ ___ ___         
-#    / __| __| \| | __| _ \  /_\_   _| __|   \        
-#   | (_ | _|| .` | _||   / / _ \| | | _|| |) |       
-#    \___|___|_|\_|___|_|_\/_/_\_\_|_|___|___/_ _____ 
-#   |   \ / _ \  | \| |/ _ \_   _| | __|   \_ _|_   _|
-#   | |) | (_) | | .` | (_) || |   | _|| |) | |  | |  
-#   |___/ \___/  |_|\_|\___/ |_|   |___|___/___| |_|  
-# 
-
-FROM rhel7:7.3-97
+FROM rhel7:7.6
 
 # Pause indefinitely if asked to do so.
 ARG OO_PAUSE_ON_BUILD
@@ -41,8 +32,11 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 
 RUN yum clean metadata && \
     yum -y update && \
-    yum-install-check.sh -y wget iputils cronie ansible vim procps less ack tar psmisc python-scandir lsof && \
+    yum-install-check.sh -y wget iputils cronie ansible-2.4.2.0 vim-enhanced procps-ng less ack tar psmisc python2-scandir lsof && \
     yum clean all
+
+# Stay on Ansible 2.4 when updating packages
+RUN echo "exclude=ansible" >> /etc/yum.conf
 
 # Setup locales.  It comes broken (probably a size issue) by default in the docker image.
 RUN yum -y reinstall glibc-common &&  \

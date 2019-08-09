@@ -1,13 +1,4 @@
 #!/bin/bash
-#     ___ ___ _  _ ___ ___    _ _____ ___ ___         
-#    / __| __| \| | __| _ \  /_\_   _| __|   \        
-#   | (_ | _|| .` | _||   / / _ \| | | _|| |) |       
-#    \___|___|_|\_|___|_|_\/_/_\_\_|_|___|___/_ _____ 
-#   |   \ / _ \  | \| |/ _ \_   _| | __|   \_ _|_   _|
-#   | |) | (_) | | .` | (_) || |   | _|| |) | |  | |  
-#   |___/ \___/  |_|\_|\___/ |_|   |___|___/___| |_|  
-# 
-
 
 # Make sure the script exits on first error
 set -e
@@ -54,7 +45,7 @@ fi
 echo
 echo "Building oso-rhel7-ops-base..."
 sudo time docker build $@ -t oso-rhel7-ops-base .
-sudo docker tag oso-rhel7-ops-base docker-registry.ops.rhcloud.com/ops/oso-rhel7-ops-base
+sudo docker tag oso-rhel7-ops-base registry.reg-aws.openshift.com:443/ops/oso-rhel7-ops-base
 
 if ! is_rhel ; then
   echo

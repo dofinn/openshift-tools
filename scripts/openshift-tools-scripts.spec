@@ -1,6 +1,6 @@
 Summary:       OpenShift Tools Scripts
 Name:          openshift-tools-scripts
-Version:       0.1.173
+Version:       0.1.176
 Release:       1%{?dist}
 License:       ASL 2.0
 URL:           https://github.com/openshift/openshift-tools
@@ -104,6 +104,9 @@ cp -p monitoring/cron-send-node-pods-status.py %{buildroot}/usr/bin/cron-send-no
 cp -p monitoring/cron-send-zabbix-inventory-check.py %{buildroot}/usr/bin/cron-send-zabbix-inventory-check
 cp -p monitoring/cron-send-console-check.py %{buildroot}/usr/bin/cron-send-console-check
 cp -p monitoring/cron-send-dedicated-admin.sh %{buildroot}/usr/bin/cron-send-dedicated-admin.sh
+cp -p monitoring/cron-send-daemonset-status.py %{buildroot}/usr/bin/cron-send-daemonset-status
+cp -p monitoring/cron-send-terminating-pod-check.py %{buildroot}/usr/bin/cron-send-terminating-pod-check
+cp -p monitoring/cron-send-snapshots-tags-check.py %{buildroot}/usr/bin/cron-send-snapshots-tags-check
 
 mkdir -p %{buildroot}/etc/openshift_tools
 cp -p monitoring/metric_sender.yaml.example %{buildroot}/etc/openshift_tools/metric_sender.yaml
@@ -422,6 +425,9 @@ OpenShift Tools Openshift Product Scripts
 /usr/bin/cron-send-node-pods-status
 /usr/bin/cron-send-console-check
 /usr/bin/cron-send-dedicated-admin.sh
+/usr/bin/cron-send-daemonset-status
+/usr/bin/cron-send-terminating-pod-check
+/usr/bin/cron-send-snapshots-tags-check
 
 # ----------------------------------------------------------------------------------
 # openshift-tools-scripts-monitoring-zabbix-heal subpackage
@@ -512,6 +518,23 @@ OpenShift Tools cicd scripts
 /usr/bin/verify-gather-logs-operations.py
 
 %changelog
+* Thu Aug 08 2019 Zhiming Zhang <zhizhang@redhat.com> 0.1.176-1
+- Add snapshot tag check script to rpm and cronjob (haowang@redhat.com)
+- add checks for logging check script (zhizhang@redhat.com)
+- add terminating pod check to rpm (bmeng@redhat.com)
+- skip the terminating pods which have finalizer set (bmeng@redhat.com)
+- add monitoring script for terminating pod (bmeng@redhat.com)
+- Add monitor for volume tags (haowang@redhat.com)
+
+* Mon Aug 05 2019 Zhiming Zhang <zhizhang@redhat.com> 0.1.175-1
+- add daemonset check script into rpm (zhizhang@redhat.com)
+- add daemonset check for v3 (zhizhang@redhat.com)
+
+* Mon Jul 29 2019 Matthew Barnes <mbarnes@fedoraproject.org> 0.1.174-1
+- cron-send-zabbix-inventory-check.py: Fix hostnames for masters
+  (mbarnes@fedoraproject.org)
+- Update the script to delete project first (haowang@redhat.com)
+
 * Thu Jul 18 2019 Stefanie Forrester <sedgar@redhat.com> 0.1.173-1
 - Specify kubeconfig (sedgar@redhat.com)
 

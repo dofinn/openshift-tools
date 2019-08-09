@@ -1,12 +1,3 @@
-#     ___ ___ _  _ ___ ___    _ _____ ___ ___         
-#    / __| __| \| | __| _ \  /_\_   _| __|   \        
-#   | (_ | _|| .` | _||   / / _ \| | | _|| |) |       
-#    \___|___|_|\_|___|_|_\/_/_\_\_|_|___|___/_ _____ 
-#   |   \ / _ \  | \| |/ _ \_   _| | __|   \_ _|_   _|
-#   | |) | (_) | | .` | (_) || |   | _|| |) | |  | |  
-#   |___/ \___/  |_|\_|\___/ |_|   |___|___/___| |_|  
-# 
-
 # Example docker run command
 # docker run -p 10050:10050 -p 10051:10051 oso-rhel7-zabbix-server
 # /usr/local/bin/start.sh will then start zabbix
@@ -22,6 +13,7 @@ EXPOSE 10050 10051
 
 ADD zabbix.repo /etc/yum.repos.d/
 ADD pdagent.repo /etc/yum.repos.d/
+ADD ops-rpm.repo /etc/yum.repos.d/
 
 # Install zabbix (and supporting tools) from zabbix repo
 
